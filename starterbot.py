@@ -6,13 +6,14 @@ class Field:
     '''
     Write your own field class
     '''
+
     def __init__(self, xsize, ysize):
         self.data = {}
         self.initialized = False
         self.xsize = xsize
         self.yxsize = ysize
 
-    def update(self, field_str):
+    def update(self, cells_list):
         '''
             Method for updating your field. Use self.initialized for
             optimizations
@@ -56,6 +57,9 @@ class StarterBot:
             self.players = dict(map(lambda x: (x, Player(x)),
                                     self.data["player_names"].split(",")))
             self.me = self.players[args[1]]
+        elif args[0] == "field_height":
+            self.field = Field(self.data["field_width"],
+                               self.data['field_height'])
 
     def update(self, args):
         '''
@@ -69,7 +73,7 @@ class StarterBot:
                 The current field, each coordinate separated by commas, from 
                 top left to bottom right
                 '''
-                self.field.update()
+                self.field.update(args[2].split(","))
             else:
                 '''
                 update game round i
@@ -82,7 +86,7 @@ class StarterBot:
             update p snippets i
             update p bombs i
             '''
-            self.players[args[0]].set(args[1], args(2))
+            self.players[args[0]].set(args[1], args[2])
 
     def action(self, args):
         '''
